@@ -1,0 +1,61 @@
+Vivont UI Widget Layout
+
+1. Create a new Widget Blueprint (Content/VivontPlugin/Widgets/WBP_VivontUI)
+
+2. Hierarchy:
+   - Canvas Panel (Root)
+     - Border
+       - Vertical Box
+         - Text Block (Title)
+           - Text: "Vivont Speech"
+           - Font Size: 24
+           - Text Color: White
+           - Font Style: Bold
+         - Horizontal Box
+           - Editable Text Box (InputTextBox)
+             - Hint Text: "Type your message here..."
+             - Width: Fill (1.0)
+           - Button (SendButton)
+             - Content: "Send"
+             - Width: Auto
+         - Button (RecordButton)
+           - Content: "Start Recording"
+           - Width: Fill (1.0)
+         - Progress Bar (AnimationProgress)
+           - Width: Fill (1.0)
+           - Visibility: Visible
+         - Text Block (StatusText)
+           - Text: "Ready"
+           - Font Size: 12
+           - Text Color: Light Gray
+         - Text Block (ResponseText)
+           - Text: ""
+           - Font Size: 14
+           - Text Color: White
+           - Auto Wrap: True
+
+3. Styling:
+   - Border:
+     - Background Color: Dark Gray (30, 30, 30, 255)
+     - Padding: 10px all sides
+   - Vertical Box:
+     - Spacing: 10
+   - Horizontal Box:
+     - Spacing: 5
+   - SendButton:
+     - Background Color: Light Blue (0, 120, 215, 255)
+   - RecordButton:
+     - Background Color: Red (215, 0, 0, 255) when recording
+     - Background Color: Green (0, 215, 0, 255) when not recording
+   - AnimationProgress:
+     - Fill Color: Light Blue (0, 120, 215, 255)
+     - Background Color: Dark Gray (50, 50, 50, 255)
+
+4. Events:
+   - Button clicks are already wired up in C++ class
+   - The Widget class inherits from UVivontWidget which handles all the logic
+
+Usage:
+1. Create an instance of this widget in your level blueprint or game mode
+2. Add it to the viewport
+3. Configure the Vivont plugin settings in Project Settings > Plugins > Vivont Plugin

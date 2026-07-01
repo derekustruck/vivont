@@ -1,0 +1,59 @@
+# ==============================================================================
+#  Vivont .gitignore — PLUGIN-CENTRIC REPOSITORY
+#
+#  git versions ONLY the shippable plugin: Plugins/VivontPlugin.
+#  The full Unreal project, the model workstream (vivontPrepTrainValidate),
+#  docs, datasets and all large binaries live on disk / in Perforce
+#  (see docs/FOLD_IN_PLAN.md) and are intentionally NOT versioned here.
+#
+#  This is an allowlist: ignore everything, then re-include the plugin.
+# ==============================================================================
+
+# Ignore everything at the repository root by default...
+/*
+
+# ...but keep git metadata, the license, and the plugin tree.
+!/.gitattributes
+!/.gitignore
+!/LICENSE
+!/README.md
+!/TODO.md
+!/Plugins/
+!/Videos/
+
+# Inside Plugins/, keep only VivontPlugin.
+/Plugins/*
+!/Plugins/VivontPlugin/
+
+# ------------------------------------------------------------------------------
+# Never version build output or large binaries, even inside the plugin.
+# ------------------------------------------------------------------------------
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+Build/
+
+# Model weights / engines / archives — too big for git; ship via Perforce.
+*.onnx
+*.trt
+*.pt
+*.pth
+*.ckpt
+*.npz
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Secrets — never commit real credentials (applies anywhere, incl. inside the plugin).
+.env
+.env.*
+*.secret
+*.secrets
+
+# IDE / OS noise
+*.pdb
+.DS_Store
+Thumbs.db
+desktop.ini

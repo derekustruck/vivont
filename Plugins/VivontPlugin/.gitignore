@@ -1,0 +1,13 @@
+# Vivont plugin — self-contained build artifacts (never versioned).
+# This plugin is the unit of distribution; keep it portable on its own.
+Binaries/
+Intermediate/
+Saved/
+DerivedDataCache/
+
+# Local model drop-in (large; provided per-environment, not committed here).
+# The runtime manifest + ONNX live under Content/Models/ at runtime.
+Content/Models/*.onnx
+Content/Models/*.json
+Content/Models/*.pt
+Content/Models/*.npy
