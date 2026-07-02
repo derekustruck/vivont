@@ -34,11 +34,11 @@ User
    │
    ▼
 Conversation Provider
-(OpenAI today, local tomorrow)
+(OpenAI today)
    │
    ▼
 Speech Provider
-(ElevenLabs today, local tomorrow)
+(OpenAI realtime and ElevenLabs API)
    │
    ▼
 24 kHz PCM Audio
