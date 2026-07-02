@@ -1,6 +1,7 @@
 # Vivont
 
-[Vivont alpha demo](Videos/VivontAlpha.mp4)
+https://github.com/user-attachments/assets/d4ad6040-8e93-436f-8783-535b5d11193a
+
 
 Vivont is an Unreal Engine 5.7 plugin for a real-time conversational MetaHuman avatar. A user sends text, an LLM generates a reply, text-to-speech returns voice audio, and Vivont drives the character face through LiveLink.
 
