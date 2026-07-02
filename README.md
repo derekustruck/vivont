@@ -34,7 +34,7 @@ User
    │
    ▼
 Conversation Provider
-(OpenAI today)
+(OpenAI)
    │
    ▼
 Speech Provider
