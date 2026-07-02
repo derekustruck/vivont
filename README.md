@@ -1,104 +1,33 @@
 # Vivont
 
-> **A native Unreal Engine runtime for conversational digital humans.**
+A native Unreal Engine runtime for conversational digital humans.
 
 https://github.com/user-attachments/assets/d4ad6040-8e93-436f-8783-535b5d11193a
 
-Vivont is an experimental Unreal Engine plugin exploring a simple question:
+Vivont is an experimental Unreal Engine plugin built around a simple question: how much of an intelligent digital character can run entirely inside the engine?
 
-> **What if an intelligent digital character could live entirely inside the game engine?**
+Right now it does real-time audio-to-blendshape facial animation through Unreal's Neural Network Engine (NNE), with hosted LLM and TTS providers handling conversation and speech. The long-term goal is a character that runs fully local without cloud dependencies, per-token costs, and no internet required.
 
-Rather than treating facial animation as an external service, Vivont is designed around a native runtime where conversation, speech, animation, and eventually intelligence all execute as modular subsystems inside Unreal Engine.
+## Why
 
-Today, the project demonstrates real-time audio-to-blendshape facial animation using Unreal's Neural Network Engine (NNE). Tomorrow, we envision a fully local conversational character that requires no cloud infrastructure to exist.
+Most AI characters today are stitched together from hosted services: one for language, one for speech, one for facial animation, plus something to orchestrate it all. The quality is genuinely good, but you pay for it in recurring API costs, latency, privacy trade-offs, and a hard dependency on a network connection.
 
----
+Vivont starts from a different premise: facial animation should behave like any other Unreal subsystem. The runtime is built on native engine execution, local ONNX inference through NNE, MetaHuman LiveLink, and as few external dependencies as possible. The LLM and TTS providers are implementation details, not architectural requirements. The prototype uses hosted providers today for LLM and TTS because they're the best quality-to-effort trade-off, but each one sits behind a modular interface and can be swapped for a local model as those mature.
 
-# Vision
+The point isn't to get rid of cloud services on principle. It's to make sure the architecture can move toward fully local execution as local models get good enough.
 
-AI-powered characters are becoming increasingly capable, but most still rely on multiple hosted services for language generation, speech synthesis, facial animation, and orchestration.
+## Current status
 
-Those services provide exceptional quality today, but they also introduce recurring API costs, latency, privacy considerations, and an internet dependency.
-
-Vivont explores a different future.
-
-We believe conversational characters should eventually become native software rather than cloud services.
-
-As language models, speech synthesis, and consumer hardware continue to improve, we envision a runtime where:
-
-- Language models execute locally.
-- Speech synthesis runs locally.
-- Facial animation is generated locally.
-- Character memory persists between sessions.
-- Characters remain available without an internet connection.
-- No per-message or per-token API costs are required.
-
-The current prototype intentionally uses hosted LLM and text-to-speech providers because they offer the best balance of quality and development speed today. Both systems are modular by design and are intended to be replaceable as local alternatives mature.
-
-Our goal is not to eliminate cloud services—it is to ensure Vivont can naturally evolve toward a fully local architecture as the technology becomes practical.
-
----
-
-# Why Vivont?
-
-Vivont is built around one architectural philosophy:
-
-> **Facial animation should behave like any other Unreal Engine subsystem.**
-
-The current runtime is intentionally designed around:
-
-- Native Unreal Engine execution
-- Unreal Neural Network Engine (NNE)
-- Local ONNX inference
-- MetaHuman LiveLink
-- Modular AI providers
-- Minimal runtime dependencies
-
-Large language models and text-to-speech providers are implementation details—not architectural requirements.
-
-As better local models emerge, they can replace today's hosted services without changing the rest of the runtime.
-
----
-
-# Current Status
-
-Vivont is an active research project.
-
-The current prototype supports:
+This is an active research project. The prototype currently supports:
 
 - Real-time conversational interaction
-- Modular LLM integration
-- Modular text-to-speech integration
-- Local audio-to-blendshape inference
-- Unreal NNE execution
-- LiveLink facial animation
-- MetaHuman integration
+- Modular LLM and TTS integration
+- Local audio-to-blendshape inference (ONNX via Unreal NNE)
+- LiveLink facial animation driving MetaHumans
 
-The public repository contains the Unreal Engine runtime and plugin source.
+The public repo contains the Unreal runtime and plugin source. Model weights, datasets, training infrastructure, and research tooling stay private while development continues.
 
-Model weights, datasets, training infrastructure, and research tooling remain private while development continues.
-
----
-
-# A Small Dataset, Surprisingly Good Results
-
-One of the most interesting aspects of Vivont is the amount of training data used.
-
-The current prototype was trained on **less than one hour of facial performance capture** and already produces convincing real-time conversational animation.
-
-Future work will focus on:
-
-- expanding the capture corpus
-- supporting the complete facial control set
-- improving emotional expressiveness
-- increasing temporal stability
-- supporting multiple speakers and voices
-
-Our long-term objective is a production-quality model capable of driving the full facial rig while maintaining real-time performance entirely inside Unreal Engine.
-
----
-
-# Runtime Architecture
+## Architecture
 
 ```
 User
@@ -127,86 +56,58 @@ LiveLink
 MetaHuman
 ```
 
-Every stage is intentionally modular.
+Only the audio-to-blendshape runtime is Vivont-specific. Everything else is a replaceable component.
 
-Only the audio-to-blendshape runtime is Vivont-specific. Conversation providers, speech providers, and future local models are interchangeable components.
+## Training data
 
----
+The current model was trained on **LESS THAN AN HOUR** of facial performance capture, and it already produces convincing real-time conversational animation. Which shows the robustness of the model architecture.
 
-# Relationship to NVIDIA Audio2Face
+Next steps on the model side: a bigger capture corpus, the complete facial control set, better emotional range, more temporal stability, and support for multiple speakers and voices. The target is a production-quality model that drives the full facial rig in real time, entirely in-engine.
 
-NVIDIA's Audio2Face ecosystem represents an impressive production-ready platform for AI-driven facial animation. It includes open models, training frameworks, SDKs, Unreal Engine integration, and deployment options ranging from local execution to scalable cloud services.  [oai_citation:0‡GitHub](https://github.com/NVIDIA/Audio2Face-3D?utm_source=chatgpt.com)
+## How this relates to NVIDIA Audio2Face
 
-Vivont is not intended to replace that ecosystem.
+NVIDIA's [Audio2Face](https://github.com/NVIDIA/Audio2Face-3D) is a production-ready platform for AI-driven facial animation — open models, training frameworks, SDKs, an Unreal integration, and deployment options from local execution to cloud services. Vivont isn't trying to compete with that.
 
-Instead, it explores a different architectural question:
-
-> **How small and self-contained can a conversational character become when every subsystem is designed to live inside Unreal Engine?**
-
-The distinction is one of architectural philosophy rather than capability.
+The difference is the question being asked. Audio2Face is a comprehensive digital human ecosystem; Vivont asks how small and self-contained a conversational character can get when every subsystem is designed to live inside Unreal Engine.
 
 | NVIDIA Audio2Face | Vivont |
 |-------------------|---------|
 | Comprehensive digital human ecosystem | Focused Unreal Engine research project |
 | Production-ready authoring and deployment tools | Experimental runtime architecture |
 | Multiple deployment models (local SDKs, Unreal plugin, NIM services) | Native Unreal Engine runtime |
-| Open models and training framework | Private research model (currently) |
-| Supports local and remote inference | Designed around local in-engine execution |
+| Open models and training framework | Private research model (for now) |
+| Local and remote inference | Local, in-engine execution |
 
-As both projects evolve, they may ultimately converge toward many of the same goals. Vivont's contribution is exploring what that future looks like from an Unreal-first perspective.
+Both projects may well end up in similar places. Vivont's contribution is working out what that looks like from an Unreal-first perspective.
 
----
+## Roadmap
 
-# Roadmap
+Done:
 
-Current milestones:
+- Native Unreal Engine runtime
+- Local ONNX inference
+- Unreal NNE integration
+- MetaHuman LiveLink
+- Real-time conversational prototype
 
-- ✅ Native Unreal Engine runtime
-- ✅ Local ONNX inference
-- ✅ Unreal NNE integration
-- ✅ MetaHuman LiveLink
-- ✅ Real-time conversational prototype
+Next:
 
-Next milestones:
+- Full facial control support
+- Larger training corpus
+- Streaming inference (currently captured and chunked)
+- Emotion presentation layer
+- Persistent character memory
+- Local LLM integration
+- Local text-to-speech
+- Cross-platform deployment
+- Production-ready plugin packaging
 
-- ⬜ Full facial control support
-- ⬜ Larger training corpus
-- ⬜ Streaming inference
-- ⬜ Emotion presentation layer
-- ⬜ Persistent character memory
-- ⬜ Local LLM integration
-- ⬜ Local text-to-speech
-- ⬜ Cross-platform deployment
-- ⬜ Production-ready plugin packaging
+## What's in this repo
 
----
+Included: the Unreal Engine plugin source, runtime orchestration, the ONNX/NNE inference pipeline, LiveLink integration, docs, and demo media.
 
-# Repository
+Not included: production model weights, training datasets, the dataset preparation pipeline, the training framework, and research tooling. Those stay private while the research is active.
 
-This repository contains the Unreal Engine runtime and integration layer.
+## License
 
-Included:
-
-- Unreal Engine plugin source
-- Runtime orchestration
-- Local ONNX/NNE inference pipeline
-- LiveLink integration
-- Public documentation
-- Demo media
-
-Not included:
-
-- Production model weights
-- Training datasets
-- Dataset preparation pipeline
-- Training framework
-- Experiment history
-- Research tooling
-
-The repository is intended to demonstrate the runtime architecture while protecting active research assets during development.
-
----
-
-# License
-
-See the accompanying LICENSE file.
+See the LICENSE file.
